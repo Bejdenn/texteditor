@@ -1,6 +1,6 @@
 package src;
 
-public class StartButton extends FuncButton {
+public class StartButton extends DefaultButton {
 
 	private CustomTimeline repeater;
 
