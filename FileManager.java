@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-import javafx.event.Event;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -17,38 +16,38 @@ public class FileManager {
 
 	private File currentFile;
 	private static boolean saved;
+	private FileChooser fileChooser = new FileChooser();
+	private Stage stage = ExecutiveClass.getPrimaryStage();
 
 	public FileManager() {
 		saved = false;
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Textdateien", "*.txt"),
+				new FileChooser.ExtensionFilter("Java-Dateien", "*.java"),
+				new FileChooser.ExtensionFilter("Alle Dateien", "*.*"),
+				new FileChooser.ExtensionFilter("HTML-Dateien", "*.html"));
 	}
 
-	public void openFile(Stage stage) {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Textdateien", "*.txt"),
-				new FileChooser.ExtensionFilter("Java-Dateien", "*.java"));
+	public void openFile() {
 		File file = fileChooser.showOpenDialog(stage);
 		if (file != null) {
 			readFile(file);
-			currentFile = file;
+			saved = true;
 		}
 	}
 
-	public void saveFileAt(Stage stage) {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Textdateien", "*.txt"),
-				new FileChooser.ExtensionFilter("Java-Dateien", "*.java"));
+	public void saveFileAt() {
 		File file = fileChooser.showSaveDialog(stage);
 		if (file != null) {
 			this.saveFile(file);
-			ExecutiveClass.setCurrentFile(file.getName());
+			ExecutiveClass.setFileName(file.getName());
 			currentFile = file;
 			saved = true;
 		}
 	}
 
-	public void fastFileSave(Stage stage) {
+	public void fastFileSave() {
 		if (currentFile == null) {
-			this.saveFileAt(stage);
+			this.saveFileAt();
 		} else {
 			this.saveFile(currentFile);
 		}
@@ -56,14 +55,16 @@ public class FileManager {
 
 	private void readFile(File file) {
 		try {
-			ExecutiveClass.setCurrentFile(file.getName());
 			List<String> lines = Files.readAllLines(Paths.get(file.getPath()), Charset.defaultCharset());
-			ExecutiveClass.getWinText().setText("");
+			ExecutiveClass.getWindowText().setText("");
+			ExecutiveClass.setFileName(file.getName());
 			for (String s : lines) {
-				ExecutiveClass.getWinText().appendText(s + "\n");
+				ExecutiveClass.getWindowText().appendText(s + "\n");
 			}
+			currentFile = file;
 		} catch (IOException e) {
-			e.printStackTrace();
+			DOptionPane.showError("Lesefehler", "Datei konnte nicht gelesen werden. "
+					+ "Es beinhaltet möglicherweise nicht lesbare Zeichen oder liegt in einem nicht unterstützen Format vor.");
 		}
 	}
 
@@ -71,7 +72,7 @@ public class FileManager {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(file);
-			for (String line : ExecutiveClass.getWinText().getText().split("\\n")) {
+			for (String line : ExecutiveClass.getContent().split("\\n")) {
 				writer.println(line);
 			}
 			saved = true;
@@ -82,91 +83,46 @@ public class FileManager {
 		}
 	}
 
-	public void saveOrNot(Stage stage) {
+	public String checkConditions() {
 		if (saved == true) {
-			ExecutiveClass.clear();
-			return;
+			return DOptionPane.SPEICHERN;
 		}
-		if (!(ExecutiveClass.getWinText().getText().equals(""))) {
-			this.throwSaveWarning(stage);
-			return;
+		if (ExecutiveClass.getContent().equals("")) {
+			if (this.getCurrentFile() == null) {
+				return DOptionPane.NICHT_SPEICHERN;
+			}
 		}
-		if (ExecutiveClass.getWinText().getText().equals("") && this.getCurrentFile() == null) {
-			ExecutiveClass.clear();
-			return;
-		}
-		if (ExecutiveClass.getWinText().getText().equals("") && this.getCurrentFile() != null) {
-			this.throwSaveWarning(stage);
-		}
+		return "No conditions";
 	}
 
-	public void throwSaveWarning(Stage stage) {
+	public String throwSaveWarning() {
 		String file = "";
-		String decision = DOptionPane.showWarning("DNotepad", "Möchten Sie die Änderung an " + file + " speichern?");
 		if (currentFile == null) {
 			file = "Unbenannt";
 		} else {
 			file = this.getCurrentFile().getName();
 		}
-		if (decision.equals(DOptionPane.ABBRECHEN)) {
-			return;
-		} else if (decision.equals(DOptionPane.SPEICHERN)) {
-			if (this.isSaved() == false) {
-				this.saveFileAt(stage);
-				currentFile = null;
-				ExecutiveClass.clear();
+		String decision = DOptionPane.showWarning("DNotepad", "Möchten Sie die Änderung an " + file + " speichern?");
 
-			} else if (this.isSaved() == true) {
-				this.fastFileSave(stage);
+		switch (decision) {
+		case DOptionPane.ABBRECHEN:
+			return DOptionPane.ABBRECHEN;
+		case DOptionPane.SPEICHERN:
+			if (saved == false) {
+				this.saveFileAt();
 				currentFile = null;
-				ExecutiveClass.clear();
+				return DOptionPane.SPEICHERN;
+			} else if (this.isSaved() == true) {
+				this.fastFileSave();
+				currentFile = null;
+				return DOptionPane.SPEICHERN;
 			}
-			return;
-		} else if (decision.equals(DOptionPane.NICHT_SPEICHERN)) {
+			return DOptionPane.ABBRECHEN;
+		case DOptionPane.NICHT_SPEICHERN:
 			currentFile = null;
-			ExecutiveClass.clear();
-		}
-	}
-	
-	public void closeOrNot(Stage stage) {
-		if (saved == true) {
-			System.exit(0);
-		}
-		if (!(ExecutiveClass.getWinText().getText().equals(""))) {
-			this.throwCloseWarning(stage);
-			return;
-		}
-		if (ExecutiveClass.getWinText().getText().equals("") && this.getCurrentFile() == null) {
-			System.exit(0);
-			return;
-		}
-		if (ExecutiveClass.getWinText().getText().equals("") && this.getCurrentFile() != null) {
-			this.throwCloseWarning(stage);
-		}
-	}
-	
-	public void throwCloseWarning(Stage stage) {
-		String file = "";
-		String decision = DOptionPane.showWarning("DNotepad", "Möchten Sie die Änderung an " + file + " speichern?");
-		if (currentFile == null) {
-			file = "Unbenannt";
-		} else {
-			file = this.getCurrentFile().getName();
-		}
-		if (decision.equals(DOptionPane.ABBRECHEN)) {
-			return;
-		} else if (decision.equals(DOptionPane.SPEICHERN)) {
-			if (this.isSaved() == false) {
-				this.saveFileAt(stage);
-				System.exit(0);
-
-			} else if (this.isSaved() == true) {
-				this.fastFileSave(stage);
-				System.exit(0);
-			}
-			return;
-		} else if (decision.equals(DOptionPane.NICHT_SPEICHERN)) {
-			System.exit(0);
+			return DOptionPane.NICHT_SPEICHERN;
+		default:
+			return "Fehler";
 		}
 	}
 

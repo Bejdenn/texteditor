@@ -9,16 +9,16 @@ import javafx.stage.Stage;
 public class ExecutiveClass extends Application {
 
 	private static Stage primaryStage;
-	static String currentFile;
-	static WindowText winText;
+	private static String fileName;
+	private static WindowText winText;
 
 	@Override
 	public void start(Stage stage) throws Exception {
 		primaryStage = stage;
-		currentFile = "Unbenannt";
-		stage.setTitle(currentFile + " - DNotepad");
+		fileName = "Unbenannt";
+		stage.setTitle(fileName + " - DNotepad");
 
-		DMenueBar menue = new DMenueBar(stage);
+		DMenueBar menue = new DMenueBar();
 
 		winText = new WindowText();
 
@@ -26,10 +26,9 @@ public class ExecutiveClass extends Application {
 		borderPane.setTop(menue);
 		borderPane.setCenter(winText);
 
-		Scene scene = new Scene(new Group(borderPane), 500, 500);
+		Scene scene = new Scene(new Group(borderPane), 700, 700);
 		stage.setScene(scene);
 		stage.show();
-		
 
 		borderPane.prefWidthProperty().bind(scene.widthProperty());
 		borderPane.prefHeightProperty().bind(scene.heightProperty());
@@ -39,17 +38,25 @@ public class ExecutiveClass extends Application {
 		launch(args);
 	}
 
-	public static WindowText getWinText() {
+	public static String getContent() {
+		return winText.getText();
+	}
+	
+	public static WindowText getWindowText() {
 		return winText;
 	}
 
-	public static void setCurrentFile(String currentFile) {
-		ExecutiveClass.currentFile = currentFile;
-		primaryStage.setTitle(currentFile + " - DNotepad");
+	public static void setFileName(String fileName) {
+		ExecutiveClass.fileName = fileName;
+		primaryStage.setTitle(fileName + " - DNotepad");
 	}
 
 	public static void clear() {
 		winText.setText("");
 		primaryStage.setTitle("Unbenannt" + " - DNotepad");
+	}
+
+	public static Stage getPrimaryStage() {
+		return primaryStage;
 	}
 }
