@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.stream.Stream;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -23,8 +24,9 @@ public class FileManager {
 		saved = false;
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Textdateien", "*.txt"),
 				new FileChooser.ExtensionFilter("Java-Dateien", "*.java"),
-				new FileChooser.ExtensionFilter("Alle Dateien", "*.*"),
-				new FileChooser.ExtensionFilter("HTML-Dateien", "*.html"));
+				new FileChooser.ExtensionFilter("HTML-Dateien", "*.html"),
+				new FileChooser.ExtensionFilter("LOG-Dateien", "*.log"),
+				new FileChooser.ExtensionFilter("Alle Dateien", "*.*"));
 	}
 
 	public void openFile() {
@@ -55,16 +57,17 @@ public class FileManager {
 
 	private void readFile(File file) {
 		try {
-			List<String> lines = Files.readAllLines(Paths.get(file.getPath()), Charset.defaultCharset());
+			Stream<String> lines = Files.lines(Paths.get(file.getPath()), StandardCharsets.UTF_8);
 			ExecutiveClass.getWindowText().setText("");
 			ExecutiveClass.setFileName(file.getName());
-			for (String s : lines) {
+			lines.forEach(s -> {
 				ExecutiveClass.getWindowText().appendText(s + "\n");
-			}
+			});
 			currentFile = file;
-		} catch (IOException e) {
+
+		} catch (UncheckedIOException | IOException ex) {
 			DOptionPane.showError("Lesefehler", "Datei konnte nicht gelesen werden. "
-					+ "Es beinhaltet möglicherweise nicht lesbare Zeichen oder liegt in einem nicht unterstützen Format vor.");
+					+ "Sie beinhaltet möglicherweise nicht lesbare Zeichen oder liegt in einem nicht unterstützen Format vor.");
 		}
 	}
 
@@ -85,6 +88,7 @@ public class FileManager {
 
 	public String checkConditions() {
 		if (saved == true) {
+			currentFile = null;
 			return DOptionPane.SPEICHERN;
 		}
 		if (ExecutiveClass.getContent().equals("")) {
@@ -102,7 +106,7 @@ public class FileManager {
 		} else {
 			file = this.getCurrentFile().getName();
 		}
-		String decision = DOptionPane.showWarning("DNotepad", "Möchten Sie die Änderung an " + file + " speichern?");
+		String decision = DOptionPane.showWarning("DNotepad", "Möchten Sie die Änderungen an " + file + " speichern?");
 
 		switch (decision) {
 		case DOptionPane.ABBRECHEN:

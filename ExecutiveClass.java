@@ -27,6 +27,7 @@ public class ExecutiveClass extends Application {
 		borderPane.setCenter(winText);
 
 		Scene scene = new Scene(new Group(borderPane), 700, 700);
+		scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
 		stage.setScene(scene);
 		stage.show();
 
