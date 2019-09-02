@@ -58,12 +58,14 @@ public class FileManager {
 	private void readFile(File file) {
 		try {
 			Stream<String> lines = Files.lines(Paths.get(file.getPath()), StandardCharsets.UTF_8);
-			lines.close();
 			ExecutiveClass.getWindowText().setText("");
-			ExecutiveClass.setFileName(file.getName());
 			lines.forEach(s -> {
-				ExecutiveClass.getWindowText().appendText(s + "\n");
+				ExecutiveClass.getWindowText().appendText(s);
+				if (!(s.equals(null))) {
+					ExecutiveClass.getWindowText().appendText("\n");
+				}
 			});
+			ExecutiveClass.setFileName(file.getName());
 			currentFile = file;
 
 		} catch (UncheckedIOException | IOException ex) {
