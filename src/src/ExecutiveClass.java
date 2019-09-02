@@ -3,6 +3,7 @@ package src;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -27,8 +28,11 @@ public class ExecutiveClass extends Application {
 		borderPane.setCenter(winText);
 
 		Scene scene = new Scene(new Group(borderPane), 700, 700);
-		scene.getStylesheets().add("stylesheet.css");
+		scene.getStylesheets().add("JMetroPanes.css");
 		scene.getStylesheets().add("JMetroLightTheme.css");
+		scene.getStylesheets().add("stylesheet.css");
+
+		stage.getIcons().add(new Image("file:icon.png"));
 		stage.setScene(scene);
 		stage.show();
 
