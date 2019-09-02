@@ -9,16 +9,26 @@ import java.util.Optional;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
 
 public class DOptionPane {
+
+	public static final String SPEICHERN = "Speichern";
+	public static final String NICHT_SPEICHERN = "Nicht speichern";
+	public static final String ABBRECHEN = "Abbrechen";
+
+	public static void addStyleClass(Alert alert) {
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.getStylesheets().add("JMetroLightTheme.css");
+	}
 
 	public static void showInformation(String title, String message) {
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -26,22 +36,15 @@ public class DOptionPane {
 		alert.setTitle("Information");
 		alert.setHeaderText(title);
 		alert.setContentText(message);
-
 		alert.showAndWait();
 	}
 
-	public static final String SPEICHERN = "Speichern";
-	public static final String NICHT_SPEICHERN = "Nicht speichern";
-	public static final String ABBRECHEN = "Abbrechen";
-
 	public static String showWarning(String title, String message, String... options) {
 		Alert alert = new Alert(Alert.AlertType.WARNING);
+		addStyleClass(alert);
 		alert.initStyle(StageStyle.UTILITY);
 		alert.setTitle("DNotepad");
 		alert.setContentText(message);
-
-		// To make enter key press the actual focused button, not the first one. Just
-		// like pressing "space".
 		alert.getDialogPane().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 			if (event.getCode().equals(KeyCode.ENTER)) {
 				event.consume();
@@ -65,7 +68,6 @@ public class DOptionPane {
 		}
 
 		alert.getButtonTypes().setAll(buttons);
-
 		Optional<ButtonType> result = alert.showAndWait();
 		if (!result.isPresent()) {
 			return ABBRECHEN;
@@ -96,7 +98,7 @@ public class DOptionPane {
 		exception.printStackTrace(pw);
 		String exceptionText = sw.toString();
 
-		Label label = new Label("Details:");
+		Text label = new Text("Details:");
 
 		TextArea textArea = new TextArea(exceptionText);
 		textArea.setEditable(false);

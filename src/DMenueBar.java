@@ -11,7 +11,6 @@ public class DMenueBar extends MenuBar {
 	FileManager fileManager = new FileManager();
 
 	public DMenueBar() {
-		this.getStyleClass().add("menubar");
 		Menu menu1 = new Menu("Datei");
 
 		MenuItem open = new MenuItem("Öffnen");

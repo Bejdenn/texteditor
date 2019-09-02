@@ -27,7 +27,8 @@ public class ExecutiveClass extends Application {
 		borderPane.setCenter(winText);
 
 		Scene scene = new Scene(new Group(borderPane), 700, 700);
-		scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
+		scene.getStylesheets().add("stylesheet.css");
+		scene.getStylesheets().add("JMetroLightTheme.css");
 		stage.setScene(scene);
 		stage.show();
 
@@ -42,7 +43,7 @@ public class ExecutiveClass extends Application {
 	public static String getContent() {
 		return winText.getText();
 	}
-	
+
 	public static WindowText getWindowText() {
 		return winText;
 	}
