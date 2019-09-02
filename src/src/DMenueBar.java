@@ -15,55 +15,27 @@ public class DMenueBar extends MenuBar {
 
 		MenuItem open = new MenuItem("Öffnen");
 		open.setOnAction(e -> {
-			fileManager.openFile();
+			Util.open();
 		});
 
 		MenuItem save = new MenuItem("Speichern");
 		save.setOnAction(e -> {
-			fileManager.fastFileSave();
+			Util.fastFileSave();
 		});
 
 		MenuItem saveAt = new MenuItem("Speichern unter");
 		saveAt.setOnAction(e -> {
-			fileManager.saveFileAt();
+			Util.saveFileAt();
 		});
 
 		MenuItem newText = new MenuItem("Neu");
 		newText.setOnAction(e -> {
-			String decision = fileManager.checkConditions();
-
-			if (decision.equals("No conditions")) {
-				decision = fileManager.throwSaveWarning();
-			}
-
-			switch (decision) {
-			case DOptionPane.SPEICHERN:
-				ExecutiveClass.clear();
-			case DOptionPane.NICHT_SPEICHERN:
-				ExecutiveClass.clear();
-			default:
-				break;
-			}
+			Util.createNewText();
 		});
 
 		MenuItem close = new MenuItem("Beenden");
 		close.setOnAction(e -> {
-			String decision = fileManager.checkConditions();
-
-			if (decision.equals("No conditions")) {
-				decision = fileManager.throwSaveWarning();
-			}
-
-			switch (decision) {
-			case DOptionPane.SPEICHERN:
-				System.exit(0);
-				break;
-			case DOptionPane.NICHT_SPEICHERN:
-				System.exit(0);
-				break;
-			default:
-				break;
-			}
+			Util.close();
 		});
 
 		ExecutiveClass.getPrimaryStage().setOnCloseRequest(event -> {
@@ -80,7 +52,7 @@ public class DMenueBar extends MenuBar {
 		undo.setOnAction(e -> {
 			ExecutiveClass.getWindowText().undo();
 		});
-		
+
 		MenuItem cutOut = new MenuItem("Ausschneiden");
 		cutOut.setOnAction(e -> {
 			Util.copy();

@@ -67,6 +67,8 @@ public class DOptionPane {
 			buttons.add(new ButtonType(option));
 		}
 
+		alert.getDialogPane().requestFocus();
+
 		alert.getButtonTypes().setAll(buttons);
 		Optional<ButtonType> result = alert.showAndWait();
 		if (!result.isPresent()) {
