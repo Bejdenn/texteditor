@@ -3,8 +3,6 @@ package src;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
 
 public class DMenueBar extends MenuBar {
 
@@ -50,7 +48,7 @@ public class DMenueBar extends MenuBar {
 
 		MenuItem undo = new MenuItem("Rückgangig");
 		undo.setOnAction(e -> {
-			ExecutiveClass.getWindowText().undo();
+			Util.undo();
 		});
 
 		MenuItem cutOut = new MenuItem("Ausschneiden");

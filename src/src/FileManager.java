@@ -67,6 +67,7 @@ public class FileManager {
 			});
 			ExecutiveClass.setFileName(file.getName());
 			currentFile = file;
+			lines.close();
 
 		} catch (UncheckedIOException | IOException ex) {
 			DOptionPane.showError("Lesefehler", "Datei konnte nicht gelesen werden. "
@@ -117,6 +118,9 @@ public class FileManager {
 		case DOptionPane.SPEICHERN:
 			if (saved == false) {
 				this.saveFileAt();
+				if (saved != true) {
+					return DOptionPane.ABBRECHEN;
+				}
 				currentFile = null;
 				return DOptionPane.SPEICHERN;
 			} else if (this.isSaved() == true) {
