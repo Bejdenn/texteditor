@@ -80,4 +80,8 @@ public final class Util {
 			break;
 		}
 	}
+
+	public static void breakLine(boolean b) {
+		ExecutiveClass.getWindowText().setWrapText(b);
+	}
 }
