@@ -58,6 +58,10 @@ public final class Util {
 		}
 	}
 
+	public static void undo() {
+		ExecutiveClass.getWindowText().undo();
+	}
+
 	public static void close() {
 		String decision = fileManager.checkConditions();
 
