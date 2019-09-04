@@ -30,9 +30,8 @@ public class ExecutiveClass extends Application {
 		Scene scene = new Scene(new Group(borderPane), 700, 700);
 		scene.getStylesheets().add("JMetroPanes.css");
 		scene.getStylesheets().add("JMetroLightTheme.css");
-		scene.getStylesheets().add("stylesheet.css");
 
-		stage.getIcons().add(new Image("file:icon.png"));
+		stage.getIcons().add(new Image("icon.png"));
 		stage.setScene(scene);
 		stage.show();
 

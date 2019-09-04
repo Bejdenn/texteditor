@@ -14,6 +14,21 @@ public final class Util {
 		clipboard.setContent(content);
 	}
 
+	public static void cut() {
+		final Clipboard clipboard = Clipboard.getSystemClipboard();
+		final ClipboardContent content = new ClipboardContent();
+		content.putString(ExecutiveClass.getWindowText().getSelectedText());
+		clipboard.setContent(content);
+		ExecutiveClass.getWindowText().setText(
+				ExecutiveClass.getWindowText().getText().replace(ExecutiveClass.getWindowText().getSelectedText(), ""));
+	}
+	
+	public static void paste() {
+		final Clipboard clipboard = Clipboard.getSystemClipboard();
+		final ClipboardContent content = new ClipboardContent();
+		ExecutiveClass.getWindowText().appendText(clipboard.getString());
+	}
+
 	public static void open() {
 		String decision = fileManager.checkConditions();
 
@@ -58,6 +73,12 @@ public final class Util {
 		}
 	}
 
+	public static void undo() {
+		if (fileManager.isSaved() != true) {
+			ExecutiveClass.getWindowText().undo();
+		}
+	}
+
 	public static void close() {
 		String decision = fileManager.checkConditions();
 
@@ -75,5 +96,9 @@ public final class Util {
 		default:
 			break;
 		}
+	}
+
+	public static void breakLine(boolean b) {
+		ExecutiveClass.getWindowText().setWrapText(b);
 	}
 }
