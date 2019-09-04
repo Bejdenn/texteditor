@@ -46,9 +46,9 @@ public class DOptionPane {
 		alert.setTitle("Information");
 		alert.setHeaderText(title);
 		alert.setContentText(message);
-		
+
 		if (options == null || options.length == 0) {
-			options = new String[] { PROFIL, REPO, ABBRECHEN};
+			options = new String[] { PROFIL, REPO, ABBRECHEN };
 		}
 
 		List<ButtonType> buttons = new ArrayList<>();

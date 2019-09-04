@@ -1,6 +1,5 @@
 package src;
 
-import javafx.print.Printer;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -63,16 +62,32 @@ public class DMenueBar extends MenuBar {
 		Menu menu2 = new Menu("Bearbeiten");
 
 		MenuItem undo = new MenuItem("Rückgangig");
+		undo.setAccelerator(KeyCombination.keyCombination("Ctrl+Z"));
 		undo.setOnAction(e -> {
 			Util.undo();
 		});
 
+		SeparatorMenuItem line2 = new SeparatorMenuItem();
+
 		MenuItem cutOut = new MenuItem("Ausschneiden");
+		cutOut.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
 		cutOut.setOnAction(e -> {
+			Util.cut();
+		});
+		
+		MenuItem copy = new MenuItem("Kopieren");
+		copy.setAccelerator(KeyCombination.keyCombination("Ctrl+C"));
+		copy.setOnAction(e -> {
 			Util.copy();
 		});
+		
+		MenuItem paste = new MenuItem("Einfügen");
+		paste.setAccelerator(KeyCombination.keyCombination("Ctrl+V"));
+		paste.setOnAction(e -> {
+			Util.paste();
+		});
 
-		menu2.getItems().addAll(undo, cutOut);
+		menu2.getItems().addAll(undo, line2, cutOut, copy, paste);
 		this.getMenus().add(menu2);
 
 		Menu menu3 = new Menu("Format");
@@ -84,12 +99,7 @@ public class DMenueBar extends MenuBar {
 
 		MenuItem font = new MenuItem("Schriftart");
 		font.setOnAction(e -> {
-			try {
-				String url = "https://github.com/Bejdenn";
-				java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-			} catch (java.io.IOException ex) {
-				System.out.println(ex.getMessage());
-			}
+
 		});
 
 		menu3.getItems().addAll(breakLine, font);

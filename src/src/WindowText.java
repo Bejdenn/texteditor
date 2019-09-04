@@ -1,13 +1,15 @@
 package src;
 
+import javax.swing.undo.UndoManager;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextArea;
-import javafx.scene.text.Font;
 
 public class WindowText extends TextArea {
-	
+
 	public static int fontSize;
+	public static UndoManager undoManager = new UndoManager();
 
 	public WindowText() {
 		fontSize = 20;
