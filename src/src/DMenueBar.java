@@ -9,11 +9,8 @@ import javafx.scene.input.KeyCombination;
 
 public class DMenueBar extends MenuBar {
 
-	FileManager fileManager = new FileManager();
-
 	public DMenueBar() {
 		Menu menu1 = new Menu("Datei");
-
 		MenuItem open = new MenuItem("Öffnen");
 		open.setAccelerator(KeyCombination.keyCombination("Ctrl+O"));
 		open.setOnAction(e -> {
@@ -40,7 +37,13 @@ public class DMenueBar extends MenuBar {
 		MenuItem printer = new MenuItem("Drucken");
 		printer.setAccelerator(KeyCombination.keyCombination("Ctrl+P"));
 		printer.setOnAction(e -> {
-
+//			PrinterJob printerJob = PrinterJob.createPrinterJob();
+//			if (printerJob != null && printerJob.showPrintDialog(ExecutiveClass.getPrimaryStage())) {
+//				boolean success = printerJob.printPage(ExecutiveClass.get);
+//				if(success) {
+//					printerJob.endJob();
+//				}
+//			}
 		});
 
 		SeparatorMenuItem line = new SeparatorMenuItem();
@@ -74,13 +77,13 @@ public class DMenueBar extends MenuBar {
 		cutOut.setOnAction(e -> {
 			Util.cut();
 		});
-		
+
 		MenuItem copy = new MenuItem("Kopieren");
 		copy.setAccelerator(KeyCombination.keyCombination("Ctrl+C"));
 		copy.setOnAction(e -> {
 			Util.copy();
 		});
-		
+
 		MenuItem paste = new MenuItem("Einfügen");
 		paste.setAccelerator(KeyCombination.keyCombination("Ctrl+V"));
 		paste.setOnAction(e -> {

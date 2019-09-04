@@ -25,7 +25,6 @@ public final class Util {
 	
 	public static void paste() {
 		final Clipboard clipboard = Clipboard.getSystemClipboard();
-		final ClipboardContent content = new ClipboardContent();
 		ExecutiveClass.getWindowText().appendText(clipboard.getString());
 	}
 
