@@ -16,63 +16,66 @@ import java.util.List;
 
 public class FluentButtonSkin extends ButtonSkin {
 
-    public FluentButtonSkin(Button button) {
-        super(button);
+	public FluentButtonSkin(Button button) {
+		super(button);
 
-        ButtonAnimationHelper.setupButton(button, shrinkAnimateOnPressProperty());
-    }
+		ButtonAnimationHelper.setupButton(button, shrinkAnimateOnPressProperty());
+	}
 
+	/********** CSS Properties ****************/
 
-    /********** CSS Properties ****************/
+	private static final CssMetaData<Button, Boolean> SHRINK_ANIMATE_ON_PRESS_META_DATA = new CssMetaData<Button, Boolean>(
+			ButtonAnimationHelper.SHRINK_ANIMATE_ON_PRESS_PROPERTY_NAME, BooleanConverter.getInstance(), true) {
 
-    private static final CssMetaData<Button, Boolean> SHRINK_ANIMATE_ON_PRESS_META_DATA =
-            new CssMetaData<Button, Boolean>(ButtonAnimationHelper.SHRINK_ANIMATE_ON_PRESS_PROPERTY_NAME,
-                    BooleanConverter.getInstance(), true) {
+		@Override
+		public boolean isSettable(Button button) {
+			final FluentButtonSkin skin = (FluentButtonSkin) button.getSkin();
+			return !skin.shrinkAnimateOnPress.isBound();
+		}
 
-                @Override
-                public boolean isSettable(Button button) {
-                    final FluentButtonSkin skin = (FluentButtonSkin) button.getSkin();
-                    return !skin.shrinkAnimateOnPress.isBound();
-                }
+		@SuppressWarnings("unchecked")
+		@Override
+		public StyleableProperty<Boolean> getStyleableProperty(Button button) {
+			final FluentButtonSkin skin = (FluentButtonSkin) button.getSkin();
+			return (StyleableProperty<Boolean>) skin.shrinkAnimateOnPressProperty();
+		}
+	};
 
-                @Override
-                public StyleableProperty<Boolean> getStyleableProperty(Button button) {
-                    final FluentButtonSkin skin = (FluentButtonSkin) button.getSkin();
-                    return (StyleableProperty<Boolean>) skin.shrinkAnimateOnPressProperty();
-                }
-            };
+	private BooleanProperty shrinkAnimateOnPress = new SimpleStyleableBooleanProperty(SHRINK_ANIMATE_ON_PRESS_META_DATA,
+			true);
 
-    private BooleanProperty shrinkAnimateOnPress = new SimpleStyleableBooleanProperty(SHRINK_ANIMATE_ON_PRESS_META_DATA, true);
+	private BooleanProperty shrinkAnimateOnPressProperty() {
+		return shrinkAnimateOnPress;
+	}
 
-    private BooleanProperty shrinkAnimateOnPressProperty() { return shrinkAnimateOnPress; }
+	@SuppressWarnings("unused")
+	private boolean isShrinkAnimateOnPress() {
+		return shrinkAnimateOnPress.get();
+	}
 
-    private boolean isShrinkAnimateOnPress() { return shrinkAnimateOnPress.get(); }
+	/* Setup styleables for this Skin */
+	private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
 
+	static {
+		final List<CssMetaData<? extends Styleable, ?>> styleables = new ArrayList<>(SkinBase.getClassCssMetaData());
+		styleables.add(SHRINK_ANIMATE_ON_PRESS_META_DATA);
+		STYLEABLES = Collections.unmodifiableList(styleables);
+	}
 
-    /* Setup styleables for this Skin */
-    private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
+	/**
+	 * @return The CssMetaData associated with this class, which may include the
+	 *         CssMetaData of its super classes.
+	 */
+	public static List<CssMetaData<? extends Styleable, ?>> getClassCssMetaData() {
+		return STYLEABLES;
+	}
 
-    static {
-        final List<CssMetaData<? extends Styleable, ?>> styleables =
-                new ArrayList<>(SkinBase.getClassCssMetaData());
-        styleables.add(SHRINK_ANIMATE_ON_PRESS_META_DATA);
-        STYLEABLES = Collections.unmodifiableList(styleables);
-    }
-
-    /**
-     * @return The CssMetaData associated with this class, which may include the
-     * CssMetaData of its super classes.
-     */
-    public static List<CssMetaData<? extends Styleable, ?>> getClassCssMetaData() {
-        return STYLEABLES;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<CssMetaData<? extends Styleable, ?>> getCssMetaData() {
-        return getClassCssMetaData();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<CssMetaData<? extends Styleable, ?>> getCssMetaData() {
+		return getClassCssMetaData();
+	}
 
 }
