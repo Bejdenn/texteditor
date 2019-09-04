@@ -12,11 +12,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class DOptionPane {
@@ -24,19 +26,45 @@ public class DOptionPane {
 	public static final String SPEICHERN = "Speichern";
 	public static final String NICHT_SPEICHERN = "Nicht speichern";
 	public static final String ABBRECHEN = "Abbrechen";
+	public static final String PROFIL = "Profil";
+	public static final String REPO = "Repository";
 
 	public static void addStyleClass(Alert alert) {
 		DialogPane dialogPane = alert.getDialogPane();
 		dialogPane.getStylesheets().add("JMetroLightTheme.css");
 	}
 
-	public static void showInformation(String title, String message) {
+	public static void addIcon(Alert alert) {
+		alert.getDialogPane().setGraphic(new ImageView(("icon.png").toString()));
+	}
+
+	public static String showInformation(String title, String message, String... options) {
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		addIcon(alert);
+		addStyleClass(alert);
 		alert.initStyle(StageStyle.UTILITY);
 		alert.setTitle("Information");
 		alert.setHeaderText(title);
 		alert.setContentText(message);
-		alert.showAndWait();
+
+		if (options == null || options.length == 0) {
+			options = new String[] { PROFIL, REPO, ABBRECHEN };
+		}
+
+		List<ButtonType> buttons = new ArrayList<>();
+		for (String option : options) {
+			buttons.add(new ButtonType(option));
+		}
+
+		alert.getDialogPane().requestFocus();
+
+		alert.getButtonTypes().setAll(buttons);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (!(result.isPresent())) {
+			return ABBRECHEN;
+		} else {
+			return result.get().getText();
+		}
 	}
 
 	public static String showWarning(String title, String message, String... options) {
