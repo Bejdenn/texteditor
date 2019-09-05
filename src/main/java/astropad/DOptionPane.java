@@ -1,4 +1,4 @@
-package src;
+package astropad;
 
 import java.awt.Robot;
 import java.io.PrintWriter;
