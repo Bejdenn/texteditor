@@ -1,4 +1,4 @@
-package src;
+package astropad;
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -11,7 +11,7 @@ public class ExecutiveClass extends Application {
 
 	private static Stage primaryStage;
 	private static String fileName;
-	private static WindowText winText;
+	private static CustomTextArea customTextArea;
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -19,13 +19,13 @@ public class ExecutiveClass extends Application {
 		fileName = "Unbenannt";
 		stage.setTitle(fileName + " - DNotepad");
 
-		DMenueBar menue = new DMenueBar();
+		CustomMenuBar menue = new CustomMenuBar();
 
-		winText = new WindowText();
+		customTextArea = new CustomTextArea();
 
 		BorderPane borderPane = new BorderPane();
 		borderPane.setTop(menue);
-		borderPane.setCenter(winText);
+		borderPane.setCenter(customTextArea);
 
 		Scene scene = new Scene(new Group(borderPane), 700, 700);
 		scene.getStylesheets().add("JMetroPanes.css");
@@ -44,11 +44,11 @@ public class ExecutiveClass extends Application {
 	}
 
 	public static String getContent() {
-		return winText.getText();
+		return customTextArea.getText();
 	}
 
-	public static WindowText getWindowText() {
-		return winText;
+	public static CustomTextArea getCustomTextArea() {
+		return customTextArea;
 	}
 
 	public static void setFileName(String fileName) {
@@ -57,7 +57,7 @@ public class ExecutiveClass extends Application {
 	}
 
 	public static void clear() {
-		winText.setText("");
+		customTextArea.setText("");
 		primaryStage.setTitle("Unbenannt" + " - DNotepad");
 	}
 
