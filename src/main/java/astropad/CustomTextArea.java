@@ -1,17 +1,14 @@
-package src;
-
-import javax.swing.undo.UndoManager;
+package astropad;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextArea;
 
-public class WindowText extends TextArea {
+public class CustomTextArea extends TextArea {
 
 	public static int fontSize;
-	public static UndoManager undoManager = new UndoManager();
 
-	public WindowText() {
+	public CustomTextArea() {
 		fontSize = 20;
 		this.setStyle("-fx-font-size: " + fontSize + "px;");
 		this.textProperty().addListener(new ChangeListener<String>() {
