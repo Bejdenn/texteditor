@@ -121,7 +121,7 @@ public class CustomMenuBar extends MenuBar {
 		MenuItem showInfoMItem = new MenuItem("Info");
 
 		showInfoMItem.setOnAction(e -> {
-			Util.openInternetPage();
+			DOptionPane.showInformation("Information");
 		});
 		helpMenu.getItems().addAll(showInfoMItem);
 		this.getMenus().add(helpMenu);

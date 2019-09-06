@@ -10,17 +10,24 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import de.saxsys.mvvmfx.ViewModel;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class FileManager {
+public class FileManager implements ViewModel {
 
 	private File currentFile;
-	private static boolean saved;
+	private StringProperty currentFileName;
+	private boolean saved;
 	private FileChooser fileChooser = new FileChooser();
 	private Stage stage = ExecutiveClass.getPrimaryStage();
 
 	public FileManager() {
+		currentFileName = new SimpleStringProperty("Unbenannt");
 		saved = false;
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Textdateien", "*.txt"),
 				new FileChooser.ExtensionFilter("Java-Dateien", "*.java"),
@@ -29,10 +36,31 @@ public class FileManager {
 				new FileChooser.ExtensionFilter("Alle Dateien", "*.*"));
 	}
 
+	private void setCurrentFileName() {
+		currentFileName.set(currentFile.getName());
+		System.out.println(currentFileName.get());
+	}
+
+	public String getCurrentFileName() {
+		return currentFileName.getValue();
+	}
+
+	public StringProperty currentFileName() {
+		return currentFileName;
+	}
+
 	public void openFile() {
 		File file = fileChooser.showOpenDialog(stage);
 		if (file != null) {
-			readFile(file);
+			try {
+				readFile(file);
+			} catch (UncheckedIOException | IOException e) {
+				DOptionPane.showError("Lesefehler", "Datei konnte nicht gelesen werden. "
+						+ "Sie beinhaltet möglicherweise nicht lesbare Zeichen oder liegt in einem nicht unterstützen Format vor.");
+				return;
+			}
+			currentFile = file;
+			this.setCurrentFileName();
 			saved = true;
 		}
 	}
@@ -41,7 +69,6 @@ public class FileManager {
 		File file = fileChooser.showSaveDialog(stage);
 		if (file != null) {
 			this.saveFile(file);
-			ExecutiveClass.setFileName(file.getName());
 			currentFile = file;
 			saved = true;
 		}
@@ -55,24 +82,17 @@ public class FileManager {
 		}
 	}
 
-	private void readFile(File file) {
-		try {
-			Stream<String> lines = Files.lines(Paths.get(file.getPath()), StandardCharsets.UTF_8);
-			ExecutiveClass.getCustomTextArea().setText("");
-			lines.forEach(s -> {
-				ExecutiveClass.getCustomTextArea().appendText(s);
-				if (!(s.equals(null))) {
-					ExecutiveClass.getCustomTextArea().appendText("\n");
-				}
-			});
-			ExecutiveClass.setFileName(file.getName());
-			currentFile = file;
-			lines.close();
-
-		} catch (UncheckedIOException | IOException ex) {
-			DOptionPane.showError("Lesefehler", "Datei konnte nicht gelesen werden. "
-					+ "Sie beinhaltet möglicherweise nicht lesbare Zeichen oder liegt in einem nicht unterstützen Format vor.");
-		}
+	private void readFile(File file) throws UncheckedIOException, IOException {
+		Stream<String> lines = Files.lines(Paths.get(file.getPath()), StandardCharsets.UTF_8);
+		ExecutiveClass.getCustomTextArea().setText("");
+		lines.forEach(s -> {
+			ExecutiveClass.getCustomTextArea().appendText(s);
+			if (!(s.equals(null))) {
+				ExecutiveClass.getCustomTextArea().appendText("\n");
+			}
+		});
+		currentFile = file;
+		lines.close();
 	}
 
 	private void saveFile(File file) {
@@ -141,7 +161,7 @@ public class FileManager {
 		return saved;
 	}
 
-	public static void setSaved(boolean Tsaved) {
+	public void setSaved(boolean Tsaved) {
 		saved = Tsaved;
 	}
 
