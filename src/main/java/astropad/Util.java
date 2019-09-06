@@ -1,30 +1,29 @@
 package astropad;
 
+import java.io.IOException;
+
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 
 public final class Util {
 
 	private static FileManager fileManager = new FileManager();
+	final static Clipboard clipboard = Clipboard.getSystemClipboard();
+	final static ClipboardContent content = new ClipboardContent();
 
 	public static void copyText() {
-		final Clipboard clipboard = Clipboard.getSystemClipboard();
-		final ClipboardContent content = new ClipboardContent();
 		content.putString(ExecutiveClass.getCustomTextArea().getSelectedText());
 		clipboard.setContent(content);
 	}
 
 	public static void cutText() {
-		final Clipboard clipboard = Clipboard.getSystemClipboard();
-		final ClipboardContent content = new ClipboardContent();
 		content.putString(ExecutiveClass.getCustomTextArea().getSelectedText());
 		clipboard.setContent(content);
-		ExecutiveClass.getCustomTextArea().setText(
-				ExecutiveClass.getCustomTextArea().getText().replace(ExecutiveClass.getCustomTextArea().getSelectedText(), ""));
+		ExecutiveClass.getCustomTextArea().setText(ExecutiveClass.getCustomTextArea().getText()
+				.replace(ExecutiveClass.getCustomTextArea().getSelectedText(), ""));
 	}
 
 	public static void pasteText() {
-		final Clipboard clipboard = Clipboard.getSystemClipboard();
 		ExecutiveClass.getCustomTextArea().appendText(clipboard.getString());
 	}
 
@@ -102,22 +101,18 @@ public final class Util {
 	}
 
 	public static void openInternetPage() {
+		String url = "";
 		switch (DOptionPane.showInformation("Information",
 				"Das ist eine Open-Source-Anwendung. Der Ersteller ist bejdenn. Mit den Knöpfen kommt man auf das GitHub-Profil oder das Repository.")) {
 		case DOptionPane.PROFIL:
-			try {
-				String url = "https://github.com/Bejdenn";
-				java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-			} catch (java.io.IOException ex) {
-				System.out.println(ex.getMessage());
-			}
+			url = "https://github.com/Bejdenn";
 		case DOptionPane.REPO:
-			try {
-				String url = "https://github.com/Bejdenn/DNotepad";
-				java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-			} catch (java.io.IOException ex) {
-				System.out.println(ex.getMessage());
-			}
+			url = "https://github.com/Bejdenn/AstroPadF";
+		}
+		try {
+			java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+		} catch (IOException e) {
+
 		}
 	}
 }

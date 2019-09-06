@@ -17,7 +17,7 @@ public class ExecutiveClass extends Application {
 	public void start(Stage stage) throws Exception {
 		primaryStage = stage;
 		fileName = "Unbenannt";
-		stage.setTitle(fileName + " - DNotepad");
+		stage.setTitle(fileName + " - AstroPad");
 
 		CustomMenuBar menue = new CustomMenuBar();
 
@@ -53,12 +53,12 @@ public class ExecutiveClass extends Application {
 
 	public static void setFileName(String fileName) {
 		ExecutiveClass.fileName = fileName;
-		primaryStage.setTitle(fileName + " - DNotepad");
+		primaryStage.setTitle(fileName + " - AstroPad");
 	}
 
 	public static void clear() {
 		customTextArea.setText("");
-		primaryStage.setTitle("Unbenannt" + " - DNotepad");
+		primaryStage.setTitle("Unbenannt" + " - AstroPad");
 	}
 
 	public static Stage getPrimaryStage() {
