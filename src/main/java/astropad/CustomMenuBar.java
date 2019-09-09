@@ -1,5 +1,6 @@
 package astropad;
 
+import de.saxsys.mvvmfx.internal.viewloader.View;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -7,7 +8,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.KeyCombination;
 
-public class CustomMenuBar extends MenuBar {
+public class CustomMenuBar extends MenuBar implements View<FileManager> {
 
 	public CustomMenuBar() {
 		this.createDataMenu();

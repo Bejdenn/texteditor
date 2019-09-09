@@ -11,10 +11,8 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 import de.saxsys.mvvmfx.ViewModel;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 

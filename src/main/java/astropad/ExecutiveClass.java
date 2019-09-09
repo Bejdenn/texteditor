@@ -1,10 +1,9 @@
 package astropad;
 
-import de.saxsys.mvvmfx.InjectViewModel;
 import de.saxsys.mvvmfx.internal.viewloader.View;
 import javafx.application.Application;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
@@ -16,14 +15,19 @@ public class ExecutiveClass extends Application implements View<FileManager> {
 
 	private static Stage primaryStage;
 	private static CustomTextArea customTextArea;
-	private StringProperty title = new SimpleStringProperty();
-
-	@InjectViewModel
 	private FileManager fileManager = new FileManager();
 
 	@Override
 	public void start(Stage stage) throws Exception {
 		primaryStage = stage;
+
+		stage.titleProperty().bind(fileManager.currentFileName());
+		stage.titleProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> tab, String oldTitle, String newTitle) {
+				stage.setTitle(newTitle);
+			}
+		});
 
 		CustomMenuBar menue = new CustomMenuBar();
 
