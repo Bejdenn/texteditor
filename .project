@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>AstroPad</name>
+	<name>dexteditor</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -15,6 +15,7 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+<<<<<<< HEAD
 		<buildCommand>
 			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
 			<triggers>full,incremental,</triggers>
@@ -35,6 +36,8 @@
 				</dictionary>
 			</arguments>
 		</buildCommand>
+=======
+>>>>>>> stash
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>

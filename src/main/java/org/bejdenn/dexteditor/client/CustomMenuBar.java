@@ -1,6 +1,5 @@
-package astropad;
+package org.bejdenn.dexteditor.client;
 
-import de.saxsys.mvvmfx.internal.viewloader.View;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -8,7 +7,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.KeyCombination;
 
-public class CustomMenuBar extends MenuBar implements View<FileManager> {
+public class CustomMenuBar extends MenuBar {
 
 	public CustomMenuBar() {
 		this.createDataMenu();
@@ -31,7 +30,7 @@ public class CustomMenuBar extends MenuBar implements View<FileManager> {
 			Util.createNewText();
 		});
 
-		MenuItem openFileMItem = new MenuItem("Öffnen");
+		MenuItem openFileMItem = new MenuItem("ffnen");
 		openFileMItem.setAccelerator(KeyCombination.keyCombination("Ctrl+O"));
 		openFileMItem.setOnAction(e -> {
 			Util.openFile();
@@ -70,7 +69,7 @@ public class CustomMenuBar extends MenuBar implements View<FileManager> {
 	private void createEditMenu() {
 		Menu editMenu = new Menu("Bearbeiten");
 
-		MenuItem undoChangeMItem = new MenuItem("Rückgangig");
+		MenuItem undoChangeMItem = new MenuItem("Rckgangig");
 		undoChangeMItem.setAccelerator(KeyCombination.keyCombination("Ctrl+Z"));
 		undoChangeMItem.setOnAction(e -> {
 			Util.undoChange();
@@ -90,7 +89,7 @@ public class CustomMenuBar extends MenuBar implements View<FileManager> {
 			Util.copyText();
 		});
 
-		MenuItem pasteTextMItem = new MenuItem("Einfügen");
+		MenuItem pasteTextMItem = new MenuItem("Einfgen");
 		pasteTextMItem.setAccelerator(KeyCombination.keyCombination("Ctrl+V"));
 		pasteTextMItem.setOnAction(e -> {
 			Util.pasteText();
@@ -122,7 +121,7 @@ public class CustomMenuBar extends MenuBar implements View<FileManager> {
 		MenuItem showInfoMItem = new MenuItem("Info");
 
 		showInfoMItem.setOnAction(e -> {
-			DOptionPane.showInformation("Information");
+			Util.openInternetPage();
 		});
 		helpMenu.getItems().addAll(showInfoMItem);
 		this.getMenus().add(helpMenu);

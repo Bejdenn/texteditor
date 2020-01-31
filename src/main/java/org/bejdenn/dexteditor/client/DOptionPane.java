@@ -1,7 +1,6 @@
-package astropad;
+package org.bejdenn.dexteditor.client;
 
 import java.awt.Robot;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import java.util.Optional;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Hyperlink;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
@@ -26,42 +25,50 @@ public class DOptionPane {
 	public static final String SPEICHERN = "Speichern";
 	public static final String NICHT_SPEICHERN = "Nicht speichern";
 	public static final String ABBRECHEN = "Abbrechen";
+	public static final String PROFIL = "Profil";
+	public static final String REPO = "Repository";
 
-	public static void showInformation(String title) {
-		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-		alert.getDialogPane().getStylesheets().add("JMetroLightTheme.css");
+	public static void addStyleClass(Alert alert) {
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.getStylesheets().add("JMetroLightTheme.css");
+	}
+
+	public static void addIcon(Alert alert) {
 		alert.getDialogPane().setGraphic(new ImageView(("icon.png").toString()));
+	}
+
+	public static String showInformation(String title, String message, String... options) {
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		addIcon(alert);
+		addStyleClass(alert);
+		alert.initStyle(StageStyle.UTILITY);
 		alert.setTitle("Information");
 		alert.setHeaderText(title);
-		Hyperlink profil = new Hyperlink("Profil");
-		profil.setOnAction(e -> {
-			String url = "https://github.com/Bejdenn";
-			try {
-				java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
-		Hyperlink repo = new Hyperlink("Repository");
-		repo.setOnAction(e -> {
-			String url = "https://github.com/Bejdenn/AstroPad";
-			try {
-				java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
-		alert.setContentText(
-				"Das ist eine Open-Source-Anwendung. Der Ersteller ist bejdenn. Mit den Knöpfen kommt man auf das "
-						+ profil + " oder das " + repo + ".");
-		alert.showAndWait();
+		alert.setContentText(message);
+
+		if (options == null || options.length == 0) {
+			options = new String[] { PROFIL, REPO, ABBRECHEN };
+		}
+
+		List<ButtonType> buttons = new ArrayList<>();
+		for (String option : options) {
+			buttons.add(new ButtonType(option));
+		}
+
+		alert.getDialogPane().requestFocus();
+
+		alert.getButtonTypes().setAll(buttons);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (!(result.isPresent())) {
+			return ABBRECHEN;
+		} else {
+			return result.get().getText();
+		}
 	}
 
 	public static String showWarning(String title, String message, String... options) {
 		Alert alert = new Alert(Alert.AlertType.WARNING);
-		alert.getDialogPane().getStylesheets().add("JMetroLightTheme.css");
+		addStyleClass(alert);
 		alert.initStyle(StageStyle.UTILITY);
 		alert.setTitle("DNotepad");
 		alert.setContentText(message);

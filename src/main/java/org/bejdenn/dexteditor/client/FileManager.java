@@ -1,4 +1,4 @@
-package astropad;
+package org.bejdenn.dexteditor.client;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,22 +10,17 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-import de.saxsys.mvvmfx.ViewModel;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class FileManager implements ViewModel {
+public class FileManager {
 
 	private File currentFile;
-	private StringProperty currentFileName;
-	private boolean saved;
+	private static boolean saved;
 	private FileChooser fileChooser = new FileChooser();
 	private Stage stage = ExecutiveClass.getPrimaryStage();
 
 	public FileManager() {
-		currentFileName = new SimpleStringProperty("Unbenannt");
 		saved = false;
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Textdateien", "*.txt"),
 				new FileChooser.ExtensionFilter("Java-Dateien", "*.java"),
@@ -34,31 +29,10 @@ public class FileManager implements ViewModel {
 				new FileChooser.ExtensionFilter("Alle Dateien", "*.*"));
 	}
 
-	private void setCurrentFileName() {
-		currentFileName.set(currentFile.getName());
-		System.out.println(currentFileName.get());
-	}
-
-	public String getCurrentFileName() {
-		return currentFileName.getValue();
-	}
-
-	public StringProperty currentFileName() {
-		return currentFileName;
-	}
-
 	public void openFile() {
 		File file = fileChooser.showOpenDialog(stage);
 		if (file != null) {
-			try {
-				readFile(file);
-			} catch (UncheckedIOException | IOException e) {
-				DOptionPane.showError("Lesefehler", "Datei konnte nicht gelesen werden. "
-						+ "Sie beinhaltet möglicherweise nicht lesbare Zeichen oder liegt in einem nicht unterstützen Format vor.");
-				return;
-			}
-			currentFile = file;
-			this.setCurrentFileName();
+			readFile(file);
 			saved = true;
 		}
 	}
@@ -67,6 +41,7 @@ public class FileManager implements ViewModel {
 		File file = fileChooser.showSaveDialog(stage);
 		if (file != null) {
 			this.saveFile(file);
+			ExecutiveClass.setFileName(file.getName());
 			currentFile = file;
 			saved = true;
 		}
@@ -80,17 +55,24 @@ public class FileManager implements ViewModel {
 		}
 	}
 
-	private void readFile(File file) throws UncheckedIOException, IOException {
-		Stream<String> lines = Files.lines(Paths.get(file.getPath()), StandardCharsets.UTF_8);
-		ExecutiveClass.getCustomTextArea().setText("");
-		lines.forEach(s -> {
-			ExecutiveClass.getCustomTextArea().appendText(s);
-			if (!(s.equals(null))) {
-				ExecutiveClass.getCustomTextArea().appendText("\n");
-			}
-		});
-		currentFile = file;
-		lines.close();
+	private void readFile(File file) {
+		try {
+			Stream<String> lines = Files.lines(Paths.get(file.getPath()), StandardCharsets.UTF_8);
+			ExecutiveClass.getCustomTextArea().setText("");
+			lines.forEach(s -> {
+				ExecutiveClass.getCustomTextArea().appendText(s);
+				if (!(s.equals(null))) {
+					ExecutiveClass.getCustomTextArea().appendText("\n");
+				}
+			});
+			ExecutiveClass.setFileName(file.getName());
+			currentFile = file;
+			lines.close();
+
+		} catch (UncheckedIOException | IOException ex) {
+			DOptionPane.showError("Lesefehler", "Datei konnte nicht gelesen werden. "
+					+ "Sie beinhaltet mglicherweise nicht lesbare Zeichen oder liegt in einem nicht untersttzen Format vor.");
+		}
 	}
 
 	private void saveFile(File file) {
@@ -128,7 +110,7 @@ public class FileManager implements ViewModel {
 		} else {
 			file = this.getCurrentFile().getName();
 		}
-		String decision = DOptionPane.showWarning("DNotepad", "Möchten Sie die Änderungen an " + file + " speichern?");
+		String decision = DOptionPane.showWarning("DNotepad", "Mchten Sie die nderungen an " + file + " speichern?");
 
 		switch (decision) {
 		case DOptionPane.ABBRECHEN:
@@ -159,7 +141,7 @@ public class FileManager implements ViewModel {
 		return saved;
 	}
 
-	public void setSaved(boolean Tsaved) {
+	public static void setSaved(boolean Tsaved) {
 		saved = Tsaved;
 	}
 
