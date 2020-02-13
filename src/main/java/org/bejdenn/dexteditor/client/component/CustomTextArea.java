@@ -1,4 +1,6 @@
-package org.bejdenn.dexteditor.client;
+package org.bejdenn.dexteditor.client.component;
+
+import org.bejdenn.dexteditor.client.FileManagerService;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -14,7 +16,7 @@ public class CustomTextArea extends TextArea {
 			@Override
 			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
 					final String newValue) {
-				FileManager.setSaved(false);
+				FileManagerService.setSaved(false);
 			}
 		});
 	}

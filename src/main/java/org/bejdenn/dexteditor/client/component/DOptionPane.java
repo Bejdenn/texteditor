@@ -1,4 +1,4 @@
-package org.bejdenn.dexteditor.client;
+package org.bejdenn.dexteditor.client.component;
 
 import java.awt.Robot;
 import java.io.PrintWriter;

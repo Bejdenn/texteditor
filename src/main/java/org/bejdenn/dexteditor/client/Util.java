@@ -1,11 +1,13 @@
 package org.bejdenn.dexteditor.client;
 
+import org.bejdenn.dexteditor.client.component.DOptionPane;
+
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 
 public final class Util {
 
-	private static FileManager fileManager = new FileManager();
+	private static FileManagerService fileManager = new FileManagerService();
 
 	public static void copyText() {
 		final Clipboard clipboard = Clipboard.getSystemClipboard();

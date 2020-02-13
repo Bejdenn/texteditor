@@ -1,5 +1,8 @@
 package org.bejdenn.dexteditor.client;
 
+import org.bejdenn.dexteditor.client.component.CustomMenuBar;
+import org.bejdenn.dexteditor.client.component.CustomTextArea;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
