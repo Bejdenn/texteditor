@@ -1,35 +1,42 @@
 package com.elinis.texteditor.client;
 
-import com.elinis.texteditor.backend.BackendModule;
-import com.elinis.texteditor.frontend.FrontendModule;
 import com.elinis.texteditor.frontend.editor.EditorView;
 import com.elinis.texteditor.frontend.view.service.ViewService;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import de.saxsys.mvvmfx.guice.MvvmfxGuiceApplication;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import de.saxsys.mvvmfx.MvvmFX;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
- * JavaFX application class. The main method should be called from outside, in the usual program
- * flow.
+ * JavaFX application class. The method {@link #startClient(String[])} should bTe called from
+ * another class.
  */
-public class TextEditorClient extends MvvmfxGuiceApplication {
+@Configuration
+@ComponentScan("com.elinis")
+public class TextEditorClient extends Application {
 
     /**
-     * Main method of the {@link TextEditorClient} class.
+     * Starts the JavaFX client.
      * 
      * @param args
      */
-    public static void main(String[] args) {
-        Application.launch(args);
+    static final void startClient(String[] args) {
+        launch(args);
     }
 
     @Override
-    public void startMvvmfx(Stage stage) throws Exception {
-        Injector injector = Guice.createInjector(new FrontendModule(), new BackendModule());
-        ViewService viewService = injector.getInstance(ViewService.class);
-        viewService.prepareView(EditorView.class);
-    }
+    public void start(Stage stage) throws Exception {
+        try (ConfigurableApplicationContext context = SpringApplication.run(getClass())) {
+            MvvmFX.setCustomDependencyInjector(context::getBean);
+            context.getBeanFactory().autowireBean(this);
 
+            ViewService viewService = context.getBean(ViewService.class);
+            viewService.prepareView(EditorView.class);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }

@@ -1,9 +1,0 @@
-language: java
-addons:
-    sonarcloud:
-        organization: elinis
-        token:
-            secure: o6mozFvFpz+S4oEKiCCTidljiOUT2YS2+3IFRziDRs7SCVuFGeDvS6mBVNE/sdOJOu4W+NbWiDibjm6WO3+G6AfU2WN4klZacrVkHuORY9XhyUO/kxMgrgc3OeWT4fb/YS5dzM0OOLxSkLMdJjkBq5LfGIm+JhMJy2rQe/gzNvuaYDWv938L2vSqqe5DXHZ77af00vuQ1JQgUSmD5VMQEYyLBz3jh2ySX/PZwjnyrxiO/QX/b1ToVAVvVEOUmJzIj443cFoj5Uj4fZXfEPauKMji/9Q2dgV+Pp8U5VrKNhJVg/wZ28Cwsipnf4AfZZYDpMDeRAYIE5eXfN3k3ZWwiyrO1XFQFSOZzenc2gbJ2SU/4OOij+4mOx0faxwH1/dN7QHDVHv9JL/w46Cdus3QXqjBYbVMDxZHul9NUAcCZP5ozRctt4WAc5OQtpgPKtfPzNs8ngUAsKMKcgwgLYub0pys2DVGkrgMvjmcPJNAK8qQVIzKqkHPkrz56ho78Z6kec870GenOMSxe2qsokTbYuqp8o/eIuLI2G2Hy0OEcOP0yQUBmrzaErRLcb+gHFQDQ56jD1UxEe+iKhYTnZr2y2TBFrVZO7MUuDY3XBklEas07Bkytzhf4nsFryIJEup/iaOaxGCD24EloGOFG9yy1//CvvWe4C47SJjvgMYOMc8=
-script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean verify sonar:sonar -Dsonar.projectKey=Bejdenn_texteditor

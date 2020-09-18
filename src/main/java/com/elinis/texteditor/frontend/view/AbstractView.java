@@ -1,7 +1,9 @@
 package com.elinis.texteditor.frontend.view;
 
-import com.elinis.texteditor.frontend.view.i18n.BaseTranslationProvider;
-import de.saxsys.mvvmfx.Initialize;
+import com.elinis.texteditor.frontend.view.i18n.TranslationProvider;
+import com.elinis.texteditor.frontend.view.i18n.TranslationProviderImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import de.saxsys.mvvmfx.JavaView;
 import de.saxsys.mvvmfx.ViewModel;
 import javafx.scene.layout.BorderPane;
@@ -10,14 +12,16 @@ import javafx.scene.layout.BorderPane;
  * Base class for {@link JavaView Views}. Sets some general implementation that should be used
  * across every view.
  * 
- * @param <VM>
- *            The assigned ViewModelBase
+ * @param <VM> The assigned ViewModelBase
  */
+@Component
 public abstract class AbstractView<VM extends AbstractViewModel> extends BorderPane
         implements JavaView<VM> {
 
-    @Initialize
-    public final void initialize() {
+    @Autowired
+    private TranslationProvider translationProvider;
+
+    public void initialize() {
         initializeGUI();
     }
 
@@ -38,7 +42,7 @@ public abstract class AbstractView<VM extends AbstractViewModel> extends BorderP
     protected abstract VM getViewModel();
 
     /**
-     * Returns a translation by utilizing the {@link BaseTranslationProvider} and searching for the
+     * Returns a translation by utilizing the {@link TranslationProviderImpl} and searching for the
      * key <code>className.resourceKey</code>. The class name will be determined by calling
      * {@link Object#getClass()}.
      * 
@@ -46,6 +50,10 @@ public abstract class AbstractView<VM extends AbstractViewModel> extends BorderP
      * @return
      */
     public String getTranslation(String resourceKey) {
-        return BaseTranslationProvider.getTranslation(getClass(), resourceKey);
+        return translationProvider.getTranslation(getClass(), resourceKey);
+    }
+
+    public TranslationProvider getTranslationProvider() {
+        return translationProvider;
     }
 }

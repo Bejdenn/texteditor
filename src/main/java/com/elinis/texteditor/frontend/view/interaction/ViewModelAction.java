@@ -13,7 +13,7 @@ public class ViewModelAction extends Action {
 
     protected Runnable function;
 
-    public ViewModelAction(Runnable function) {
+    public ViewModelAction(final Runnable function) {
         this.function = function;
     }
 

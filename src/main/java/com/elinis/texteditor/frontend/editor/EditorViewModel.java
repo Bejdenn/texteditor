@@ -1,52 +1,95 @@
 package com.elinis.texteditor.frontend.editor;
 
+import java.io.File;
+import java.util.Optional;
 import com.elinis.texteditor.frontend.view.AbstractViewModel;
 import com.elinis.texteditor.frontend.view.interaction.ViewModelAction;
+import com.elinis.texteditor.util.FileUtils;
+import org.springframework.stereotype.Component;
 import de.saxsys.mvvmfx.utils.commands.Command;
 import de.saxsys.mvvmfx.utils.commands.DelegateCommand;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
+/**
+ * {@link AbstractViewModel ViewModel} for {@link EditorView}.
+ */
+@Component
 public class EditorViewModel extends AbstractViewModel {
-   
-    private Command startNewFileCommand;
-    private Command openNewFileCommand;
-    private Command saveFileCommand;
-    private Command saveFileAsCommand;
-    private Command printFileCommand;
 
+    private final StringProperty textAreaContent = new SimpleStringProperty();
+
+    private final Command startNewFileCommand =
+            new DelegateCommand(() -> new ViewModelAction(this::startNewFile));
+    private final Command openFileCommand =
+            new DelegateCommand(() -> new ViewModelAction(this::openFile));
+    private final Command saveFileCommand =
+            new DelegateCommand(() -> new ViewModelAction(this::saveFile));
+    private final Command saveFileAsCommand =
+            new DelegateCommand(() -> new ViewModelAction(this::saveFileAs));
+    private final Command printFileCommand =
+            new DelegateCommand(() -> new ViewModelAction(this::printFile));
+
+    private final Command toggleDarkModeCommand =
+            new DelegateCommand(() -> new ViewModelAction(this::toggleDarkMode));
+
+    private final ObjectProperty<File> currentFile = new SimpleObjectProperty<>();
+
+    @Override
     public void initialize() {
-        startNewFileCommand = new DelegateCommand(() -> new ViewModelAction(this::startNewFile));
-        openNewFileCommand = new DelegateCommand(() -> new ViewModelAction(this::openNewFile));
-        saveFileCommand = new DelegateCommand(() -> new ViewModelAction(this::saveFile));
-        saveFileAsCommand = new DelegateCommand(() -> new ViewModelAction(this::saveFileAs));
-        printFileCommand = new DelegateCommand(() -> new ViewModelAction(this::printFile));
+        setTitle(currentFile.get(), true);
+        currentFile.addListener((obs, oldV, newV) -> setTitle(currentFile.get(), false));
     }
 
     private void startNewFile() {
 
     }
 
-    private void openNewFile() {
+    private void openFile() {
+        //@formatter:off
+        final Optional<File> openedFileOpt = getViewService()
+                .getFileChooser()
+                .owner(this)
+                .openFile();
+        //@formatter:on
 
+        if (openedFileOpt.isPresent()) {
+            currentFile.set(openedFileOpt.get());
+            textAreaContent.set(FileUtils.readFile(currentFile.get()));
+        }
     }
 
     private void saveFile() {
-
+        // fileManagementService.saveFile(currentFile);
     }
 
-    private void saveFileAs() {
-
-    }
+    private void saveFileAs() {}
 
     private void printFile() {
         System.out.println("Print");
+    }
+
+    private void toggleDarkMode() {
+        requestStyleChange();
+    }
+
+    private void setTitle(File file, boolean saved) {
+        titleProperty().set(String.format("TextEditor - %s %s",
+                FileUtils.getFileNameWithoutPath(file), saved ? "" : "*"));
+    }
+
+    StringProperty textAreaContentProperty() {
+        return textAreaContent;
     }
 
     Command getStartNewFileCommand() {
         return startNewFileCommand;
     }
 
-    Command getOpenNewFileCommand() {
-        return openNewFileCommand;
+    Command getOpenFileCommand() {
+        return openFileCommand;
     }
 
     Command getSaveFileCommand() {
@@ -59,5 +102,9 @@ public class EditorViewModel extends AbstractViewModel {
 
     Command getPrintFileCommand() {
         return printFileCommand;
+    }
+
+    public Command getToggleDarkModeCommand() {
+        return toggleDarkModeCommand;
     }
 }

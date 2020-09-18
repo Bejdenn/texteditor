@@ -6,7 +6,6 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
@@ -47,7 +46,7 @@ public class DOptionPane {
 		alert.setContentText(message);
 
 		if (options == null || options.length == 0) {
-			options = new String[] { PROFIL, REPO, ABBRECHEN };
+			options = new String[] {PROFIL, REPO, ABBRECHEN};
 		}
 
 		List<ButtonType> buttons = new ArrayList<>();
@@ -86,7 +85,7 @@ public class DOptionPane {
 		});
 
 		if (options == null || options.length == 0) {
-			options = new String[] { SPEICHERN, NICHT_SPEICHERN, ABBRECHEN };
+			options = new String[] {SPEICHERN, NICHT_SPEICHERN, ABBRECHEN};
 		}
 
 		List<ButtonType> buttons = new ArrayList<>();
@@ -176,7 +175,7 @@ public class DOptionPane {
 		});
 
 		if (options == null || options.length == 0) {
-			options = new String[] { OK, CANCEL };
+			options = new String[] {OK, CANCEL};
 		}
 
 		List<ButtonType> buttons = new ArrayList<>();
