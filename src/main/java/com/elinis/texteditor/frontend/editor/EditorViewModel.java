@@ -2,10 +2,13 @@ package com.elinis.texteditor.frontend.editor;
 
 import java.io.File;
 import java.util.Optional;
-import com.elinis.texteditor.frontend.view.AbstractViewModel;
-import com.elinis.texteditor.frontend.view.interaction.ViewModelAction;
-import com.elinis.texteditor.util.FileUtils;
+
+import com.elinis.core.commons.util.FileUtils;
+import com.elinis.core.frontend.view.AbstractViewModel;
+import com.elinis.core.frontend.view.interaction.ViewModelAction;
+
 import org.springframework.stereotype.Component;
+
 import de.saxsys.mvvmfx.utils.commands.Command;
 import de.saxsys.mvvmfx.utils.commands.DelegateCommand;
 import javafx.beans.property.ObjectProperty;

@@ -3,8 +3,12 @@ package com.elinis.texteditor.frontend.view.i18n;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.util.Locale;
-import com.elinis.texteditor.util.ReflectionUtils;
+
+import com.elinis.core.commons.util.ReflectionUtils;
+import com.elinis.core.frontend.view.i18n.TranslationProvider;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -35,8 +39,7 @@ public class TranslationProviderTest {
         // see constants
 
         // WHEN
-        String translation =
-                translationProvider.getTranslation(getClass().getSimpleName(), RESOURCE_KEY);
+        String translation = translationProvider.getTranslation(getClass().getSimpleName(), RESOURCE_KEY);
 
         // THEN
         assertThat(translation, is(equalTo(EXPECTED_TRANSLATION)));

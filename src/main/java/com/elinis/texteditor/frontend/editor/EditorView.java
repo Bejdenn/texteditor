@@ -1,10 +1,13 @@
 package com.elinis.texteditor.frontend.editor;
 
 import static javafx.scene.input.KeyCombination.CONTROL_DOWN;
-import com.elinis.texteditor.frontend.view.AbstractView;
-import com.elinis.texteditor.frontend.view.component.MenuBarBuilder;
-import com.elinis.texteditor.frontend.view.component.MenuItemType;
+
+import com.elinis.core.frontend.view.AbstractView;
+import com.elinis.core.frontend.view.component.MenuBarBuilder;
+import com.elinis.core.frontend.view.component.MenuItemType;
+
 import org.springframework.stereotype.Component;
+
 import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
