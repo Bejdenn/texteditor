@@ -2,10 +2,9 @@ package com.elinis.texteditor.frontend.editor;
 
 import static javafx.scene.input.KeyCombination.CONTROL_DOWN;
 import com.elinis.texteditor.frontend.view.AbstractView;
-import com.elinis.texteditor.frontend.view.PresentationType;
-import com.elinis.texteditor.frontend.view.View;
 import com.elinis.texteditor.frontend.view.component.MenuBarBuilder;
 import com.elinis.texteditor.frontend.view.component.MenuItemType;
+import org.springframework.stereotype.Component;
 import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
@@ -14,7 +13,7 @@ import javafx.scene.input.KeyCode;
 /**
  * The initial and currently only view of the application.
  */
-@View(PresentationType.VIEW)
+@Component
 public class EditorView extends AbstractView<EditorViewModel> {
 
     private MenuBar menuBar;
@@ -25,6 +24,8 @@ public class EditorView extends AbstractView<EditorViewModel> {
 
     @Override
     public void initializeGUI() {
+        setPrefSize(800, 650);
+
         menuBar = createMenuBar();
         setTop(menuBar);
 

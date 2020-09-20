@@ -75,7 +75,7 @@ public class EditorViewModel extends AbstractViewModel {
         requestStyleChange();
     }
 
-    private void setTitle(File file, boolean saved) {
+    private void setTitle(final File file, final boolean saved) {
         titleProperty().set(String.format("TextEditor - %s %s",
                 FileUtils.getFileNameWithoutPath(file), saved ? "" : "*"));
     }
