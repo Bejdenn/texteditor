@@ -20,7 +20,7 @@ public class TranslationProviderTest {
     private static final String RESOURCE_KEY = "testString";
 
     @InjectMocks
-    private TranslationProviderImpl translationProvider;
+    private TranslationProvider translationProvider;
 
     @BeforeEach
     public void setUp() throws Exception {
