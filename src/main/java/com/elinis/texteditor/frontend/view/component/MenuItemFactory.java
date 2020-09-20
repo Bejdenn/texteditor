@@ -5,6 +5,10 @@ import javafx.scene.control.RadioMenuItem;
 
 class MenuItemFactory {
 
+    private MenuItemFactory() {
+        // only static access is allowed
+    }
+
     public static MenuItem getFor(MenuItemType type) {
         switch (type) {
             case DEFAULT:

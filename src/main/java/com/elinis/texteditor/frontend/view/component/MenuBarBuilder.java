@@ -1,6 +1,6 @@
 package com.elinis.texteditor.frontend.view.component;
 
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import de.saxsys.mvvmfx.utils.commands.Command;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -15,7 +15,7 @@ import javafx.scene.input.KeyCombination.Modifier;
 public class MenuBarBuilder {
 
     private final MenuBar menuBar = new MenuBar();
-    private Function<String, String> translationProvider;
+    private UnaryOperator<String> translationProvider;
 
     private MenuBarBuilder() {
         // only static access to builder
@@ -25,7 +25,7 @@ public class MenuBarBuilder {
         return new MenuBarBuilder();
     }
 
-    public MenuBarBuilder withTranslator(final Function<String, String> translationProvider) {
+    public MenuBarBuilder withTranslator(final UnaryOperator<String> translationProvider) {
         this.translationProvider = translationProvider;
         return this;
     }
@@ -66,7 +66,7 @@ public class MenuBarBuilder {
         public class MenuItemBuilder {
 
             private MenuItem menuItem;
-            private String identifier;
+            private final String identifier;
 
             private MenuItemBuilder(final String identifier) {
                 this.identifier = identifier;
@@ -79,8 +79,7 @@ public class MenuBarBuilder {
                 return this;
             }
 
-            private <T extends MenuItem> MenuItemBuilder setIdentification(
-                    final String identifier) {
+            private MenuItemBuilder setIdentification(final String identifier) {
                 menuItem.setId(identifier);
                 menuItem.setText(MenuBarBuilder.this.translationProvider.apply(identifier));
                 return this;

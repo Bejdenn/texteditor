@@ -11,6 +11,10 @@ public class ReflectionUtils {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    private ReflectionUtils() {
+        // only static access is allowed
+    }
+
     /**
      * Accesses the instance and sets the field (which will be searched for by the given field name)
      * to the new value.
@@ -26,7 +30,7 @@ public class ReflectionUtils {
             fieldToAccess.set(instance, value);
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException
                 | SecurityException e) {
-            LOGGER.error("Error occured while trying to access field {0} of type {0}.", fieldName,
+            LOGGER.error("Error occured while trying to access field {} of type {}.", fieldName,
                     instance.getClass().getSimpleName());
         }
     }

@@ -17,6 +17,10 @@ import org.apache.commons.io.FilenameUtils;
  */
 public class FileUtils {
 
+    private FileUtils() {
+        // only static access is allowed
+    }
+
     public static String getFileNameWithoutPath(File file) {
         return file == null ? "Ohne Titel" : FilenameUtils.getName(file.getName());
     }

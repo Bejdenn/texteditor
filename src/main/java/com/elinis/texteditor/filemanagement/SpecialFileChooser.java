@@ -15,8 +15,6 @@ import javafx.stage.FileChooser.ExtensionFilter;
  */
 public interface SpecialFileChooser {
 
-    static final FileChooser fileChooser = new FileChooser();
-
     /**
      * Registers the window where the file chooser was called from. This is necessary to block any
      * interaction in the owner window while the chooser is active.

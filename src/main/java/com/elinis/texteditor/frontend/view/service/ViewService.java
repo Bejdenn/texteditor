@@ -48,9 +48,10 @@ public class ViewService {
     }
 
     /**
-     * @deprecated The current implementation of opening the file chooser is not very fluent and a
-     *             good API, search for another way.
+     * @deprecated The current implementation of opening the file chooser is not very fluent and is
+     *             not a very good API. Search for another way, to have a more builder-like way.
      */
+    @Deprecated
     public SpecialFileChooser getFileChooser() {
         return extendedFileChooser;
     }

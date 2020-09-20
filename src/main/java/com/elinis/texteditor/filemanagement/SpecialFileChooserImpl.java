@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import com.elinis.texteditor.frontend.view.AbstractViewModel;
 import org.springframework.stereotype.Component;
+import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
 
@@ -14,6 +15,8 @@ import javafx.stage.Window;
  */
 @Component
 public class SpecialFileChooserImpl implements SpecialFileChooser {
+
+    private static final FileChooser FILE_CHOOSER = new FileChooser();
 
     private Window owner;
 
@@ -31,17 +34,17 @@ public class SpecialFileChooserImpl implements SpecialFileChooser {
 
     @Override
     public SpecialFileChooserImpl addExtensionFilters(Set<ExtensionFilter> filterTypes) {
-        filterTypes.stream().forEachOrdered(fileChooser.getExtensionFilters()::add);
+        filterTypes.stream().forEachOrdered(FILE_CHOOSER.getExtensionFilters()::add);
         return this;
     }
 
     @Override
     public Optional<File> openFile() {
-        return Optional.ofNullable(fileChooser.showOpenDialog(owner));
+        return Optional.ofNullable(FILE_CHOOSER.showOpenDialog(owner));
     }
 
     @Override
     public Optional<File> saveFile() {
-        return Optional.ofNullable(fileChooser.showSaveDialog(owner));
+        return Optional.ofNullable(FILE_CHOOSER.showSaveDialog(owner));
     }
 }
