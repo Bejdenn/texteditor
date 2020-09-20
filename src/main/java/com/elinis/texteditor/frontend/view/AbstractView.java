@@ -1,7 +1,6 @@
 package com.elinis.texteditor.frontend.view;
 
 import com.elinis.texteditor.frontend.view.i18n.TranslationProvider;
-import com.elinis.texteditor.frontend.view.i18n.TranslationProviderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import de.saxsys.mvvmfx.JavaView;
@@ -42,8 +41,8 @@ public abstract class AbstractView<VM extends AbstractViewModel> extends BorderP
     protected abstract VM getViewModel();
 
     /**
-     * Returns a translation by utilizing the {@link TranslationProviderImpl} and searching for the
-     * key <code>className.resourceKey</code>. The class name will be determined by calling
+     * Returns a translation by utilizing the {@link TranslationProvider} and searching for the key
+     * <code>className.resourceKey</code>. The class name will be determined by calling
      * {@link Object#getClass()}.
      * 
      * @param resourceKey
