@@ -65,10 +65,19 @@ public class EditorViewModel extends AbstractViewModel {
     }
 
     private void saveFile() {
-        // fileManagementService.saveFile(currentFile);
+        saveFileToFileSystem(Optional.of(currentFile.get()));
     }
 
-    private void saveFileAs() {}
+    private void saveFileAs() {
+        Optional<File> chosenfile = getViewService().getFileChooser().owner(this).saveFile();
+        saveFileToFileSystem(chosenfile);
+    }
+
+    private void saveFileToFileSystem(Optional<File> chosenfile) {
+        if (chosenfile.isPresent()) {
+            FileUtils.saveFile(chosenfile.get(), textAreaContent.get());
+        }
+    }
 
     private void printFile() {
         System.out.println("Print");
